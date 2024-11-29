@@ -46,6 +46,8 @@ def check_with_output(number_of_range, func):
 
 
 def binary_search_indices(sorted_list, target_number):
+    # Time complexity is O(log N)
+    # Auxiliary space is O(1)
     low = 0
     high = len(sorted_list) - 1
     mid = (high + 1 - low) // 2 + low
@@ -63,6 +65,26 @@ def binary_search_indices(sorted_list, target_number):
     return sorted_list[mid]
 
 
+def binary_search_recursive(sorted_list, target_number, low, high):
+
+    mid = (high + 1 - low) // 2 + low
+    print(f"mid: {mid}, low: {low}, high: {high}")
+    if not low <= high:
+        return -1
+
+    if target_number == sorted_list[mid]:
+        return 1
+    elif target_number < sorted_list[mid]:
+        return binary_search_recursive(sorted_list, target_number, low, mid - 1)
+    else: # target_number > sorted_list[mid]
+        return binary_search_recursive(sorted_list, target_number, mid + 1, high)
+
+
+sorted_list = [i+1 for i in range(10)]
+print(sorted_list)
+result = binary_search_recursive(sorted_list, 1, 0, len(sorted_list) - 1)
+print(f"{result}")
+
 """sorted_list = [i+1 for i in range(10)]
 print(sorted_list)
 result = binary_search_indices(sorted_list, 6)
@@ -71,4 +93,4 @@ print(result)"""
 
 # check_with_output(100, binary_search_without_mid)
 # check_with_output(100, binary_search_with_mid)
-check_with_output(100, binary_search_indices)
+# check_with_output(100, binary_search_indices)
