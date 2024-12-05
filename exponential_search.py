@@ -1,12 +1,4 @@
-def linear_search(sorted_list, target_number ,start=0):
-
-    print(f"Commence linear search in the interval [{start} to {len(sorted_list)}]")
-
-    for i in range(start, len(sorted_list)):
-        if target_number == sorted_list[i]:
-            print(f"{i - start} steps were taken")
-            return 1
-    return -1
+import linear_search
 
 
 def exponential_search_adjustable(sorted_list, target_number, basis=2, exponent=1, flag="exponent"):
