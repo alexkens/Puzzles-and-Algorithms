@@ -10,6 +10,7 @@ we can optimize for every K the amount of droppings
 
 
 import math
+import sys
 
 
 def egg_floor_formula(floors: int):
@@ -23,22 +24,40 @@ def egg_floor(eggs: int, floors: int):
     if eggs == 1:
         return floors
 
-    min_trials = 0
-    print(f"i: {0}, Floors: {floors}, Minimum Trials: {min_trials}")
-    for i in range(eggs-1):
-        floors = egg_floor_formula(floors)
-        min_trials += floors
-        floors -= 1
-        print(f"i: {i}, Floors: {floors}, Minimum Trials: {min_trials}")
+    min_trials = floors
+    min_trials = egg_floor_formula(floors)
+    while eggs > 2:
+        print(f"Eggs: {eggs}, Floors: {floors}, Minimum Trials: {min_trials}")
+        min_trials = egg_floor_formula(min_trials - 1) + 1
+        eggs -= 1
     
     return min_trials
 
 
+def eggDrop(eggs: int, floors: int):
+    """Recursive function that finds the least amount of egg drops."""
 
+    print(f"eggs: {eggs}, floors: {floors}")
+
+    # base case one egg --> all the floors count
+    # base case zero or one floor --> only zero or one floor can be counted, no matter how many eggs
+    if eggs == 1 or floors <= 1:
+        return floors
+    if eggs == 0:
+        return 0
+    
+    min_trials = sys.maxsize
+    for step in range(1, floors + 1):
+        result = max(eggDrop(eggs, floors-step), eggDrop(eggs-1, step-1))
+        if result < min_trials:
+            min_trials = result
+
+    return 1 + min_trials
 
 
 N = 3 # eggs
-K = 100 # floors
+K = 4 # floors
 
-result = egg_floor(N, K)
-print(result)
+result1 = egg_floor(N, K)
+result2 = eggDrop(N, K)
+print(result1, result2)
