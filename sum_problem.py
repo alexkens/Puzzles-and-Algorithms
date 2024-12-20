@@ -1,10 +1,18 @@
-# find pair sum in a sorted array
+"""
+2 sum problem: find pair sum in an array
+3 sum problem: find triple sum in an array
+4 sum problem: find quadruple sum in an array
+
+"""
+
+
 
 import random
 import time
 
 
-def trivial_solution(array: list[int], target: int):
+def two_sum_trivial(array: list[int], target: int):
+    """The first pair sum is returned in an ascending lsit in O(N^2) complexity."""
 
     length = len(array)
     for first in range(length-1):
@@ -14,7 +22,8 @@ def trivial_solution(array: list[int], target: int):
     return -1, None
 
 
-def two_pointers_technique(array: list[int], target: int):
+def two_sum_two_pointers_technique(array: list[int], target: int):
+    """The first pair sum is returned in an ascending sorted list in O(N) complexity."""
 
     end = len(array) - 1
     for i in range(len(array)):
@@ -44,8 +53,7 @@ def check(func):
         target = random.randint(0, 100)
         for _ in range(10):
             array.append(random.randint(0, 100))
-        array = sorted(array)
-        first, second = func(array, target)
+        first, second = func(array.sort(), target)
         if second != None:
             print(f"{array} --> {target} --> {first}, {second}")
         else:
@@ -53,9 +61,22 @@ def check(func):
     print()
 
 
-check(trivial_solution)
-check(two_pointers_technique)
+def three_sum_trivial(array: list[int], target: int):
 
-"""array = [1, 3, 5, 10, 20, 21]
-res = two_pointers_technique(array, 21)
-print(res)"""
+    n = len(array)
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if target == array[i] + array[j] + array[k]:
+                    return array[i], array[j], array[k]
+    return -1
+
+
+array = [1, 3, 5, 10, 20, 21]
+res = three_sum_trivial(array, 9)
+print(res)
+
+
+# check(two_sum_trivial)
+# check(two_sum_two_pointers_technique)
