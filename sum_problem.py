@@ -9,6 +9,7 @@
 
 import random
 import time
+import math
 
 
 def two_sum_trivial(array: list[int], target: int):
@@ -73,8 +74,43 @@ def three_sum_trivial(array: list[int], target: int):
     return -1
 
 
+def three_sum(array: list[int], target: int):
+    
+    n = len(array)
+
+    start = 0
+    end = n - 1
+    for i in range(n):
+        if array[i] > target:
+            end = i
+    middle = int(end // 2)
+
+    
+    
+    while start < middle and middle < end:
+        print(start, middle, end)
+        current_sum = array[start] + array[middle] + array[end]
+
+        if current_sum == target:
+            return start, middle, end
+        elif current_sum < target:
+            if middle == start + 1:
+                start += 1
+                middle = int((end - start) / 2 + start)
+            middle -= 1
+        else: # current_sum > target
+            if middle == end - 1:
+                end -= 1
+                middle = int((end - start) / 2 + start)
+            middle += 1
+    
+    return -1
+            
+
+
+
 array = [1, 3, 5, 10, 20, 21]
-res = three_sum_trivial(array, 9)
+res = three_sum(array, 9)
 print(res)
 
 
