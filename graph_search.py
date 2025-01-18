@@ -62,27 +62,37 @@ def depth_search(graph: UndirectedGraph):
         return -1
 
     current_node = 1
-    previous_node = None
-    stack = graph.nodes[current_node - 1]
-    visited = [current_node]
+    current_index = 0
+    stack = graph.nodes[current_node - 1].copy()
+    order = [current_node]
+    visited = graph.number_of_nodes * [False]
+    visited[0] = True
 
-    while len(visited) < graph.number_of_nodes:
+    while not all(visited):
 
-        print(current_node, stack, visited)
+        print(current_node, current_index, stack, order)
         
-        for _ in range(len(stack)):
-            tmp = sorted(stack, reverse=True).pop()
-            if tmp in visited:
-                continue
-            else:
-                previous_node = current_node
-                current_node = tmp
-                visited.append(current_node)
-                stack = graph.nodes[current_node - 1]
-                break
-        current_node = previous_node
+        for i in range(len(stack)):
+            stack.sort(reverse=True)
+            tmp = stack.pop()
+            print("for loop: ", i, tmp, stack)
 
-    return visited
+            if tmp in order and i < len(stack) - 1:
+                continue
+            elif tmp in order and i == len(stack) - 1:
+                current_index -= 1
+                current_node = order[current_index]
+                stack = graph.nodes[current_node - 1].copy()
+            else: # tmp not in visited
+                current_node = tmp
+                order.append(current_node)
+                current_index += 1
+                stack = graph.nodes[current_node - 1].copy()
+                visited[current_node - 1] = True
+                print("else: ", current_node, stack)
+                break
+
+    return order
 
 
 
