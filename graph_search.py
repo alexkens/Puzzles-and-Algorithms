@@ -59,40 +59,45 @@ class UndirectedGraph:
 
 def depth_search(graph: UndirectedGraph):
     if graph.number_of_nodes == 0:
-        return -1
+        return []
+    if graph.number_of_nodes == 1:
+        return [0]
 
     current_node = 1
-    current_index = 0
+    visited_index = 0
     stack = graph.nodes[current_node - 1].copy()
-    order = [current_node]
+    #order = [current_node]
     visited = graph.number_of_nodes * [False]
     visited[0] = True
+    dfs = [current_node]
 
     while not all(visited):
-
-        print(current_node, current_index, stack, order)
         
-        for i in range(len(stack)):
+        print(current_node, visited_index, stack, dfs)
+        
+        stack_length = len(stack)
+        for i in range(stack_length):
             stack.sort(reverse=True)
             tmp = stack.pop()
             print("for loop: ", i, tmp, stack)
 
-            if tmp in order and i < len(stack) - 1:
+            if tmp in dfs and i < stack_length - 1:
                 continue
-            elif tmp in order and i == len(stack) - 1:
-                current_index -= 1
-                current_node = order[current_index]
+            elif tmp in dfs and i == stack_length - 1:
+                current_node = dfs[visited_index - 1]
+                visited_index += 1
                 stack = graph.nodes[current_node - 1].copy()
             else: # tmp not in visited
                 current_node = tmp
-                order.append(current_node)
-                current_index += 1
+                #order.append(current_node)
+                visited_index += 1
                 stack = graph.nodes[current_node - 1].copy()
                 visited[current_node - 1] = True
                 print("else: ", current_node, stack)
                 break
+        dfs.append(current_node)
 
-    return order
+    return dfs
 
 
 
