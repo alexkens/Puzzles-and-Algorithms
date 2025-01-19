@@ -100,6 +100,38 @@ def depth_search(graph: UndirectedGraph):
     return dfs
 
 
+def breadth_search(graph: UndirectedGraph):
+    
+    visited = [False] * graph.number_of_nodes
+    visited[0] = True
+    current_node = 1
+    bfs_index = 0
+    queue = graph.nodes[current_node-1].copy()
+    stack = queue.copy()
+    bfs = []
+    bfs.append(current_node)
+    
+    while not all(visited):
+        
+        print(current_node, bfs_index, bfs, stack)
+        
+        tmp = stack.pop()
+        if tmp in bfs:
+            continue
+        elif tmp in bfs and len(stack) == 0:
+            for i in queue:
+                if queue[i] not in bfs:
+                    current_node = queue[i]
+                    bfs_index += 1
+        else: # tmp not in bfs
+            bfs.append(tmp)
+            bfs_index += 1
+            for i in graph.nodes[tmp-1]:
+                queue.append(i)
+            
+    return bfs
+
+
 
 graph = UndirectedGraph("My Graph", 5)
 graph.new_edge(1, 2)
@@ -111,5 +143,6 @@ graph.new_edge(3, 5)
 # graph.show_stats()
 # graph.show()
 
-l = depth_search(graph)
+# l = depth_search(graph)
+l = breadth_search(graph)
 print(l)
